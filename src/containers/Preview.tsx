@@ -10,11 +10,13 @@ import StructureItems from '../components/render/StructureItems';
 interface PreviewProps {
   bodyStylesMain: object,
   templateStylesWrapper: object,
-  templateStylesMain: object,
-  addStructureItem: (id: string, styles: object, colsId: string[], colsStyles: object[]) => void
+  structureItemsOrder: string[],
+  addStructureItem: (id: string, sortableId: number, styles: object, colsId: string[], colsStyles: object[]) => void
 }
 
 const Preview: React.FC<PreviewProps> = props => {
+  const structureItems = props.structureItemsOrder;
+
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: dndTypes.STRUCTURE,
     drop: (props, monitor) => {
@@ -28,15 +30,7 @@ const Preview: React.FC<PreviewProps> = props => {
         return colsIdArr;
       };
 
-      if(structureItemsStyles) addStructureItem(structureId, structureItemsStyles.parent, colsId(), structureItemsStyles.cols[dropItem.cols]);
-      // return {
-      //   isDrop: {
-      //     id: structureId,
-      //     styles: structureItemsStyles.parent,
-      //     colsId: colsId(),
-      //     colsStyles: structureItemsStyles.cols[dropItem.cols]
-      //   }
-      // };
+      if(structureItemsStyles) addStructureItem(structureId, structureItems.length, structureItemsStyles.parent, colsId(), structureItemsStyles.cols[dropItem.cols]);
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -45,8 +39,8 @@ const Preview: React.FC<PreviewProps> = props => {
     }),
   });
 
-  const addStructureItem = (id, styles, colsId, colsStyles) => {
-    props.addStructureItem(id, styles, colsId, colsStyles);
+  const addStructureItem = (id, sortableId, styles, colsId, colsStyles) => {
+    props.addStructureItem(id, sortableId, styles, colsId, colsStyles);
   };
 
   const isActive = canDrop && isOver;
@@ -67,9 +61,7 @@ const Preview: React.FC<PreviewProps> = props => {
               <tbody>
               <tr style={{verticalAlign: 'top'}}>
                 <td>
-                  <div style={props.templateStylesMain}>
-                    <StructureItems/>
-                  </div>
+                   <StructureItems/>
                 </td>
               </tr>
               </tbody>
@@ -86,14 +78,14 @@ const mapStateToProps = state => {
   return {
     bodyStylesMain: state.body.styles.main,
     templateStylesWrapper: state.template.styles.wrapper,
-    templateStylesMain: state.template.styles.main,
+    structureItemsOrder: state.structureItemsOrder
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addStructureItem: (id, styles, colsId, colsStyles) => {
-      dispatch(addStructureItem(id, styles, colsId, colsStyles));
+    addStructureItem: (id, sortableId, styles, colsId, colsStyles) => {
+      dispatch(addStructureItem(id, sortableId, styles, colsId, colsStyles));
     }
   }
 };

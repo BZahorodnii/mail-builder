@@ -6,7 +6,8 @@ const structureItem = (state = {}, action) => {
       return {
         ...state,
         styles: action.styles,
-        colsId: action.colsId
+        colsId: action.colsId,
+        sortableId: action.sortableId
       };
     default:
       return state;
