@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import structureItemsOrder from './structureItemsOrder';
 import structureItems from './structureItems';
 import structureCols from './structureCols';
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/actionTypes';
 
 const selectedMenu = (state = 'structure', action) => {
   switch (action.type) {
