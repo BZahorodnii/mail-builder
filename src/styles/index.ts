@@ -1,10 +1,11 @@
-import styled, {createGlobalStyle} from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   html,
   body,
   #app{
     height: 100%;
+    background: #fff;
   }
   body {
     font-family: 'Helvetica Neue', sans-serif;
@@ -35,7 +36,7 @@ export const Wrapper = styled.section`
 
 export const ControlPanelWrapper = styled.div`
   width: 300px;
-  border-right: 1px solid rgba(0,0,0, .1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const ControlPanelWrapperIn = styled.div`
@@ -45,66 +46,68 @@ export const ControlPanelWrapperIn = styled.div`
 export const ControlPanelMenuWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  border-bottom: 1px solid rgba(0,0,0, .1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 interface ControlPanelMenuItemProps {
-  active: boolean
+  active: boolean;
 }
 
 export const ControlPanelMenuItem = styled.button`
-   padding: 12px 0;
-   text-align: center;
-   width: 50%;
-   font-size: 2.0em;
-   line-height: 1.2;
-   border: 0;
-   cursor: pointer;
-   background: ${(props: ControlPanelMenuItemProps) => props.active ? 'rgba(0,0,0, .1)' : 'none'};
-   transition: all .4s ease;
-   &:hover {
-    background: rgba(0,0,0, .1);
-   }
+  padding: 12px 0;
+  text-align: center;
+  width: 50%;
+  font-size: 2em;
+  line-height: 1.2;
+  border: 0;
+  cursor: pointer;
+  background: ${(props: ControlPanelMenuItemProps) =>
+    props.active ? 'rgba(0,0,0, .1)' : 'none'};
+  transition: all 0.4s ease;
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 interface ControlPanelStructureItemProps {
-  width: number
+  width: number;
 }
 
 export const ControlPanelStructureItem = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    padding: 4% 2%;
-    margin: 0 0 10px;
-    color: #5C5C5C;
-    border: 1px solid #D8D8D8;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4% 2%;
+  margin: 0 0 10px;
+  color: #5c5c5c;
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  cursor: grab;
+  transition: all 0.4s ease;
+  &:hover {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    background: rgba(5, 1, 243, 0.05);
+  }
+  &:active {
+    cursor: grabbing;
+  }
+  div {
+    position: relative;
     border-radius: 5px;
-    cursor: grab;
-    transition: all .4s ease;
-    &:hover {
-      border: 1px solid rgba(0,0,0, .25);
-      background: rgba(5,1,243, .05);
+    height: 30px;
+    margin: 0 2%;
+    width: ${(props: ControlPanelStructureItemProps) =>
+      props.width ? `${props.width}%` : '100%'};
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px dashed rgba(0, 0, 0, 0.2);
     }
-    &:active {
-      cursor: grabbing;
-    }
-    div {
-      position: relative;
-      border-radius: 5px;
-      height: 30px;
-      margin: 0 2%;
-      width: ${(props: ControlPanelStructureItemProps) => props.width ? `${props.width}%` : '100%'};
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgba(0,0,0, .05 );
-        border: 1px dashed rgba(0,0,0, .2);
-      }
-    }
+  }
 `;
 
 export const ControlPanelContentWrapper = styled.div`
@@ -115,19 +118,19 @@ export const ControlPanelContentWrapper = styled.div`
 export const ControlPanelContentItem = styled.div`
   font-size: 1.4em;
   text-align: center;
-  box-shadow: 0 0 0 1px rgba(0,0,0, .1);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   padding: 10px;
   width: 30%;
   border-radius: 5px;
   margin-bottom: 15px;
   cursor: grab;
-  transition: all .4s ease;
-  &:nth-child(3n+2) {
+  transition: all 0.4s ease;
+  &:nth-child(3n + 2) {
     margin: 0 5% 15px;
   }
   &:hover {
-    box-shadow: 0 0 0 1px rgba(0,0,0, .25);
-    background: rgba(5,1,243, .05);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    background: rgba(5, 1, 243, 0.05);
   }
   &:active {
     cursor: grabbing;
@@ -135,13 +138,14 @@ export const ControlPanelContentItem = styled.div`
 `;
 
 interface PreviewWrapperProps {
-  background: string
+  background: string;
 }
 
 export const PreviewWrapper = styled.div`
   flex-grow: 1;
-  background: ${(props: PreviewWrapperProps) => props.background ? props.background : 'none'};
-  transition: all .4s ease;
+  background: ${(props: PreviewWrapperProps) =>
+    props.background ? props.background : 'none'};
+  transition: all 0.4s ease;
 `;
 
 export const H1 = styled.h1`
@@ -170,16 +174,15 @@ export const Text = styled.div`
 // Template render Components
 export const StructureSectionCol = styled.div`
   transition: all 2s ease;
-	&.-empty {
+  &.-empty {
     height: 60px;
-    background: rgba(231, 249, 250, .5);
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-	}
-	.-is-drag {
-		background: rgba(231, 249, 250, .7);
-	}
-	.-can-drop {
-		background: rgba(231, 249, 250, .9);
-	}
+    background: rgba(231, 249, 250, 0.5);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+  .-is-drag {
+    background: rgba(231, 249, 250, 0.7);
+  }
+  .-can-drop {
+    background: rgba(231, 249, 250, 0.9);
+  }
 `;
-

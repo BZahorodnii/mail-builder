@@ -1,4 +1,4 @@
-import {ADD_STRUCTURE_ITEM} from '../constants/actionTypes';
+import {ADD_STRUCTURE_ITEM} from '../constants/ActionTypes';
 
 const structureItem = (state = {}, action) => {
   switch (action.type) {

@@ -1,4 +1,4 @@
 export default {
-  STRUCTURE: 'structure',
+  STRUCTURE: 'STRUCTURE',
   STRUCTURE_SORTABLE: 'STRUCTURE_SORTABLE',
-}
+};

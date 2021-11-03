@@ -1,4 +1,4 @@
-import {ADD_STRUCTURE_ITEM, MOVE_STRUCTURE_ITEM} from '../constants/actionTypes';
+import {ADD_STRUCTURE_ITEM, MOVE_STRUCTURE_ITEM} from '../constants/ActionTypes';
 
 const structureItemsOrder = (state = [], action) => {
   switch (action.type) {
