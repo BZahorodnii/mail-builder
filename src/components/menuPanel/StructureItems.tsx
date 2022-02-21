@@ -1,5 +1,5 @@
 import * as React from 'react';
-import StructureItem from './StructureItem';
+import StructureItem from './StructureItem/StructureItem';
 
 
 const StructureItems: React.FC<{}> = () => {

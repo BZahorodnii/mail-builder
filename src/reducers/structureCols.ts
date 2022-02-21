@@ -1,6 +1,6 @@
 import {ADD_STRUCTURE_ITEM} from '../constants/ActionTypes';
 
-const structureCol = (state = {}, action) => {
+const structureCol = (state = {}, action: any) => {
   switch (action.type) {
     case ADD_STRUCTURE_ITEM:
       return {
@@ -13,7 +13,7 @@ const structureCol = (state = {}, action) => {
   }
 };
 
-const structureCols = (state = {}, action) => {
+const structureCols = (state = {}, action: any) => {
   switch (action.type) {
     case ADD_STRUCTURE_ITEM:
       let items = {...state};

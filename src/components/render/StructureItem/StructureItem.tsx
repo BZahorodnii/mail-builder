@@ -4,16 +4,12 @@ import {
   useDrop,
   DropTargetMonitor
 } from 'react-dnd';
-import {XYCoord} from 'dnd-core';
-import dndTypes from '../../constants/dndTypes';
+import {XYCoord, Identifier} from 'dnd-core';
+import {DragItem} from '../../../interfaces';
+import dndTypes from '../../../constants/dndTypes';
 import {connect} from 'react-redux';
-import {StructureSectionCol} from '../../styles';
 
-interface DragItem {
-  index: number
-  id: number
-  type: string
-}
+import styles from './StructureItem.module.sass';
 
 interface StructureItemProps {
   id: number,
@@ -25,16 +21,21 @@ interface StructureItemProps {
 }
 
 const StructureItem: React.FC<StructureItemProps> = props => {
+  const { id, index, structureItemStyles, structureItemCols, structureCols, moveStructureItem } = props;
   const ref = React.useRef<HTMLDivElement>(null);
 
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
     accept: dndTypes.STRUCTURE_SORTABLE,
     hover(item: DragItem, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return
       }
       const dragIndex = item.index;
-      const hoverIndex = props.index;
+      const hoverIndex = index;
 
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
@@ -68,32 +69,31 @@ const StructureItem: React.FC<StructureItemProps> = props => {
         return
       }
 
-      props.moveStructureItem(dragIndex, hoverIndex);
+      moveStructureItem(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
   });
 
-  const [{isDragging}, drag] = useDrag({
-    item: {
-      type: dndTypes.STRUCTURE_SORTABLE,
-      id: props.id,
-      index: props.index
+  const [{ isDragging }, drag] = useDrag({
+    type: dndTypes.STRUCTURE_SORTABLE,
+    item: () => {
+      return { id, index }
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
-  });
+  })
 
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
   return (
     <div ref={ref} style={{
-      ...props.structureItemStyles,
+      ...structureItemStyles,
       opacity
     }}>
-      {props.structureItemCols.map((item, i) => {
-        return <StructureSectionCol key={`${item}-${i}`} className={'-empty'} style={props.structureCols[item].styles.main}/>
+      {structureItemCols.map((item, i) => {
+        return <div key={`${item}-${i}`} className={`${styles.sectionCol} ${styles.empty}`} style={structureCols[item].styles.main}/>
       })}
     </div>)
 

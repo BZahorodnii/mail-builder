@@ -1,20 +1,20 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import configureStore from './store/configureStore';
-import AppWrapper from './containers/AppWrapper';
+import React from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import ControlPanel from './containers/ControlPanel/ControlPanel';
+import Preview from './containers/Preview/Preview';
 
-const store = configureStore();
+import styles from './App.module.sass';
 
 const App: React.FC = () => {
   return (
-    <Provider store={store}>
-      <AppWrapper/>
-    </Provider>
+    <div className={styles.wrapper}>
+      <DndProvider backend={HTML5Backend}>
+        <ControlPanel />
+        <Preview />
+      </DndProvider>
+    </div>
   )
 };
 
-ReactDOM.render(
-  <App/>,
-  document.getElementById('app')
-);
+export default App;

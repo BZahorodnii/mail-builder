@@ -4,7 +4,7 @@ import structureItems from './structureItems';
 import structureCols from './structureCols';
 import * as types from '../constants/ActionTypes';
 
-const selectedMenu = (state = 'structure', action) => {
+const selectedMenu = (state = 'structure', action: any) => {
   switch (action.type) {
     case types.SELECT_MENU:
       return action.menu;
@@ -13,7 +13,7 @@ const selectedMenu = (state = 'structure', action) => {
   }
 };
 
-const selectedStructureItem = (state = '', action) => {
+const selectedStructureItem = (state = '', action: any) => {
   switch (action.type) {
     case 'SELECT_ITEM':
       return action.structureItem;

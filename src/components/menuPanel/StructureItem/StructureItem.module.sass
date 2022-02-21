@@ -1,0 +1,41 @@
+.structureItem
+  display: flex
+  flex-wrap: wrap
+  padding: 4% 2%
+  margin: 0 0 10px
+  color: #5c5c5c
+  border: 1px solid #d8d8d8
+  border-radius: 5px
+  cursor: grab
+  transition: all 0.4s ease
+
+  &:hover 
+    border: 1px solid rgba(0, 0, 0, 0.25)
+    background: rgba(5, 1, 243, 0.05)
+  
+  &:active 
+    cursor: grabbing
+  
+  div
+    position: relative
+    border-radius: 5px
+    height: 30px
+    margin: 0 2%
+    width: 100%
+
+    &:before 
+      content: ''
+      position: absolute
+      left: 0
+      right: 0
+      top: 0
+      bottom: 0
+      background: rgba(0, 0, 0, 0.05)
+      border: 1px dashed rgba(0, 0, 0, 0.2)
+
+.cols2 div
+  width: 46%
+.cols3 div
+  width: 29%
+.cols4 div
+  width: 21%

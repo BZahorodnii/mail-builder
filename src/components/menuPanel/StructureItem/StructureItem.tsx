@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { useDrag } from 'react-dnd';
-import { ControlPanelStructureItem } from '../../styles';
-import dndTypes from '../../constants/dndTypes';
+import cx from 'clsx';
+import dndTypes from '../../../constants/dndTypes';
+
+import styles from './StructureItem.module.sass';
 
 interface StructureItemProps {
   cols: number;
 }
 
-const StructureItem: React.FC<StructureItemProps> = (props) => {
-  const cols = props.cols;
+const StructureItem: React.FC<StructureItemProps> = props => {
+  const { cols } = props;
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { cols, type: dndTypes.STRUCTURE },
-    // end: (dropResult?: { cols: number }) => {
-    //   if (dropResult) return dropResult;
-    // },
-    collect: (monitor) => ({
+  const [, drag] = useDrag({
+    type: dndTypes.STRUCTURE,
+    item: { cols },
+    collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
-  });
+  })
 
   let createCollection = (quantity): number[] => {
     if (!quantity) return;
@@ -30,14 +30,21 @@ const StructureItem: React.FC<StructureItemProps> = (props) => {
     return resArray;
   };
 
+  const classNames = cx(
+    styles.structureItem,
+    props.cols === 2 && styles.cols2,
+    props.cols === 3 && styles.cols3,
+    props.cols === 4 && styles.cols4,
+  )
+
   return (
-    <ControlPanelStructureItem ref={drag} width={100 / props.cols - 4}>
+    <div className={classNames} ref={drag}>
       {props.cols && props.cols > 1 ? (
         createCollection(props.cols).map((item, i) => <div key={i}></div>)
       ) : (
         <div></div>
       )}
-    </ControlPanelStructureItem>
+    </div>
   );
 };
 

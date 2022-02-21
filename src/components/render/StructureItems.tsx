@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import StructureItem from './StructureItem';
-import {moveStructureItem, selectMenu} from '../../actions';
+import StructureItem from './StructureItem/StructureItem';
+import {moveStructureItem} from '../../actions';
 
 interface StructureItemsProps {
   templateStylesMain: object,
@@ -12,18 +12,29 @@ interface StructureItemsProps {
 }
 
 const StructureItems: React.FC<StructureItemsProps> = props => {
-  const moveStructureItem = (dragIndex: number, hoverIndex: number) => {
-    let dragItemId = props.structureItemsOrder[dragIndex];
-    let newArr = props.structureItemsOrder.slice();
+  const { templateStylesMain, structureCols, structureItemsOrder, structureItems, moveStructureItem } = props;
+  
+  const moveItem = (dragIndex: number, hoverIndex: number) => {
+    let dragItemId = structureItemsOrder[dragIndex];
+    let newArr = structureItemsOrder.slice();
     newArr.splice(dragIndex, 1);
     newArr.splice(hoverIndex, 0, dragItemId);
-    props.moveStructureItem(newArr);
+    moveStructureItem(newArr);
   };
 
   return (
-    <div style={props.templateStylesMain}>
-      {props.structureItemsOrder.map((item, i) => {
-        return <StructureItem key={`${item}`} moveStructureItem={moveStructureItem} index={i} id={props.structureItems[item].sortableId} structureItemCols={props.structureItems[item].colsId} structureItemStyles={props.structureItems[item].styles.main} />
+    <div style={templateStylesMain}>
+      {structureItemsOrder.map((item, i) => {
+        return (
+          <StructureItem 
+            key={`${item}`}
+            index={i}
+            id={structureItems[item].sortableId}
+            moveStructureItem={moveItem}
+            structureItemCols={structureItems[item].colsId}
+            structureItemStyles={structureItems[item].styles.main}
+          />
+        )
       })}
     </div>
   )
