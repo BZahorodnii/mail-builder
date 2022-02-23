@@ -1,23 +1,17 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { useStore } from '@nanostores/react';
 import cx from 'clsx';
 import dndTypes from '../../constants/dndTypes';
-import {addStructureItem} from '../../actions';
-import structureItemsStyles from '../../collections/structureItemsStyles';
+import { structureItemsOrder } from '../../stores/structureItemsOrder';
+import { addStructureItemId } from '../../stores/structureItemsOrder';
+import { addStructureItem } from '../../stores/structureItems';
 import StructureItems from '../../components/render/StructureItems';
 
 import styles from './Preview.module.sass';
 
-interface PreviewProps {
-  bodyStylesMain: object,
-  templateStylesWrapper: object,
-  structureItemsOrder: string[],
-  addStructureItem: (id: string, sortableId: number, styles: object, colsId: string[], colsStyles: object[]) => void
-}
-
-const Preview: React.FC<PreviewProps> = props => {
-  const { bodyStylesMain, templateStylesWrapper, structureItemsOrder, addStructureItem } = props;
+const Preview: React.FC = () => {
+  const orderList = useStore(structureItemsOrder);
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: dndTypes.STRUCTURE,
@@ -32,7 +26,8 @@ const Preview: React.FC<PreviewProps> = props => {
         return colsIdArr;
       };
 
-      if (structureItemsStyles) addItem(structureId, structureItemsOrder.length, structureItemsStyles.parent, colsId(), structureItemsStyles.cols[dropItem.cols]);
+      addStructureItemId(structureId);
+      addStructureItem(structureId, colsId(), orderList.length);
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -40,20 +35,22 @@ const Preview: React.FC<PreviewProps> = props => {
     }),
   });
 
-  const addItem = (id, sortableId, styles, colsId, colsStyles) => {
-    addStructureItem(id, sortableId, styles, colsId, colsStyles);
-  };
-
   const isActive = canDrop && !isOver;
   const isCanDrop = canDrop && isOver;
 
+  const classNames = cx(
+    styles.previewWrapper,
+    isActive && styles.isActive,
+    isCanDrop && styles.canDrop
+  );
+
   return (
-    <div className={cx(styles.previewWrapper, isActive && styles.isActive, isCanDrop && styles.canDrop)} ref={drop}>
-      <table style={bodyStylesMain}>
+    <div className={classNames} ref={drop}>
+      <table className="wrapper">
         <tbody>
         <tr>
           <td>
-            <table style={templateStylesWrapper}>
+            <table className="template-wrapper">
               <tbody>
               <tr style={{verticalAlign: 'top'}}>
                 <td>
@@ -70,20 +67,4 @@ const Preview: React.FC<PreviewProps> = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    bodyStylesMain: state.body.styles.main,
-    templateStylesWrapper: state.template.styles.wrapper,
-    structureItemsOrder: state.structureItemsOrder
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addStructureItem: (id, sortableId, styles, colsId, colsStyles) => {
-      dispatch(addStructureItem(id, sortableId, styles, colsId, colsStyles));
-    }
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Preview);
+export default Preview;

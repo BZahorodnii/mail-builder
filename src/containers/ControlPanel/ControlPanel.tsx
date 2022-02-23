@@ -1,6 +1,4 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {selectMenu} from '../../actions';
 import StructureItem from '../../components/menuPanel/StructureItem/StructureItem';
 import ContentItems from '../../components/menuPanel/ContentItems/ContentItems';
 
@@ -33,18 +31,4 @@ const ControlPanel: React.FC<ControlPanelProps> = props =>  {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    selectedMenu: state.selectedMenu
-  }
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onClickMenu: trigger => {
-      dispatch(selectMenu(trigger));
-    }
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);
+export default ControlPanel;

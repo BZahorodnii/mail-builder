@@ -1,27 +1,21 @@
 import * as React from 'react';
-import {
-  useDrag,
-  useDrop,
-  DropTargetMonitor
-} from 'react-dnd';
+import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import {XYCoord, Identifier} from 'dnd-core';
+import cx from 'clsx';
+import { reorderStructureItems } from '../../../stores/structureItemsOrder';
 import {DragItem} from '../../../interfaces';
 import dndTypes from '../../../constants/dndTypes';
-import {connect} from 'react-redux';
 
 import styles from './StructureItem.module.sass';
 
 interface StructureItemProps {
   id: number,
   index: number,
-  structureItemStyles: object,
   structureItemCols: string[],
-  structureCols: object,
-  moveStructureItem: (dragIndex: number, hoverIndex: number) => void
 }
 
 const StructureItem: React.FC<StructureItemProps> = props => {
-  const { id, index, structureItemStyles, structureItemCols, structureCols, moveStructureItem } = props;
+  const { id, index, structureItemCols } = props;
   const ref = React.useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop<
@@ -69,7 +63,7 @@ const StructureItem: React.FC<StructureItemProps> = props => {
         return
       }
 
-      moveStructureItem(dragIndex, hoverIndex);
+      reorderStructureItems(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
   });
@@ -84,25 +78,27 @@ const StructureItem: React.FC<StructureItemProps> = props => {
     }),
   })
 
-  const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
+  const templateClassNames = cx(
+    'template-main',
+    isDragging && '-transparent'
+  )
+
+  const colClassNames = cx(
+    'col',
+    styles.sectionCol,
+    styles.empty,
+    structureItemCols && structureItemCols.length > 1 && `cols-${structureItemCols.length}`
+  )
+
   return (
-    <div ref={ref} style={{
-      ...structureItemStyles,
-      opacity
-    }}>
-      {structureItemCols.map((item, i) => {
-        return <div key={`${item}-${i}`} className={`${styles.sectionCol} ${styles.empty}`} style={structureCols[item].styles.main}/>
+    <div ref={ref} className={templateClassNames}>
+      {structureItemCols && structureItemCols.map((item, i) => {
+        return <div key={`${item}-${i}`} className={colClassNames}/>
       })}
-    </div>)
-
+    </div>
+  );
 };
 
-const mapStateToProps = state => {
-  return {
-    structureCols: state.structureCols,
-  }
-};
-
-export default connect(mapStateToProps, null)(StructureItem);
+export default StructureItem;

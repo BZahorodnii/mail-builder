@@ -1,38 +1,24 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { useStore } from '@nanostores/react';
+import { structureItemsOrder } from '../../stores/structureItemsOrder';
+import { structureItems } from '../../stores/structureItems';
 import StructureItem from './StructureItem/StructureItem';
-import {moveStructureItem} from '../../actions';
 
-interface StructureItemsProps {
-  templateStylesMain: object,
-  structureCols: object,
-  structureItemsOrder: string[],
-  structureItems: string[],
-  moveStructureItem: (structureItems: object) => void
-}
+const StructureItems: React.FC = () => {
 
-const StructureItems: React.FC<StructureItemsProps> = props => {
-  const { templateStylesMain, structureCols, structureItemsOrder, structureItems, moveStructureItem } = props;
-  
-  const moveItem = (dragIndex: number, hoverIndex: number) => {
-    let dragItemId = structureItemsOrder[dragIndex];
-    let newArr = structureItemsOrder.slice();
-    newArr.splice(dragIndex, 1);
-    newArr.splice(hoverIndex, 0, dragItemId);
-    moveStructureItem(newArr);
-  };
+  const orderList = useStore(structureItemsOrder);
+  const itemsList = useStore(structureItems)
 
   return (
-    <div style={templateStylesMain}>
-      {structureItemsOrder.map((item, i) => {
+    <div className="template">
+      {orderList.map((item, i) => {
+        if (!itemsList) return;
         return (
           <StructureItem 
             key={`${item}`}
             index={i}
-            id={structureItems[item].sortableId}
-            moveStructureItem={moveItem}
-            structureItemCols={structureItems[item].colsId}
-            structureItemStyles={structureItems[item].styles.main}
+            id={itemsList?.[item]?.sortableId}
+            structureItemCols={itemsList?.[item]?.colsId}
           />
         )
       })}
@@ -40,21 +26,4 @@ const StructureItems: React.FC<StructureItemsProps> = props => {
   )
 };
 
-const mapStateToProps = state => {
-  return {
-    templateStylesMain: state.template.styles.main,
-    structureItems: state.structureItems,
-    structureCols: state.structureCols,
-    structureItemsOrder: state.structureItemsOrder
-  }
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    moveStructureItem: structureItems => {
-      dispatch(moveStructureItem(structureItems));
-    }
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StructureItems);
+export default StructureItems;
