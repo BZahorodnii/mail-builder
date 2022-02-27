@@ -1,8 +1,9 @@
 {
   "name": "mail-builder",
   "description": "Mail Builder",
+  "author": "Borys Zahorodnii",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "homepage": "./",
   "main": "./public/electron.js",
   "dependencies": {
@@ -12,16 +13,16 @@
     "@testing-library/user-event": "^13.5.0",
     "clsx": "^1.1.1",
     "concurrently": "^6.5.0",
+    "dialog": "^0.3.1",
     "electronmon": "^2.0.2",
     "nanostores": "^0.5.10",
     "node-sass": "^7.0.0",
+    "pretty": "^2.0.0",
     "react": "^17.0.2",
     "react-dnd": "^15.1.1",
     "react-dnd-html5-backend": "^15.1.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "wait-on": "^6.0.0",
-    "web-vitals": "^2.1.2"
+    "react-scripts": "5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -60,21 +61,15 @@
   },
   "browserslist": {
     "production": [
-      "last 1 electron version",
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 electron version",
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "electron": "^16.0.5",
+    "electron": "^16.0.10",
     "electron-builder": "^22.14.5"
   }
 }

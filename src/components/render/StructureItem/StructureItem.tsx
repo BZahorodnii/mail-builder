@@ -87,13 +87,12 @@ const StructureItem: React.FC<StructureItemProps> = props => {
 
   const colClassNames = cx(
     'col',
-    styles.sectionCol,
     styles.empty,
     structureItemCols && structureItemCols.length > 1 && `cols-${structureItemCols.length}`
   )
 
   return (
-    <div ref={ref} className={templateClassNames}>
+    <div ref={ref} className={templateClassNames} data-structure>
       {structureItemCols && structureItemCols.map((item, i) => {
         return <div key={`${item}-${i}`} className={colClassNames}/>
       })}

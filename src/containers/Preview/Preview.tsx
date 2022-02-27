@@ -45,7 +45,7 @@ const Preview: React.FC = () => {
   );
 
   return (
-    <div className={classNames} ref={drop}>
+    <div className={classNames} ref={drop} id="template">
       <table className="wrapper">
         <tbody>
         <tr>

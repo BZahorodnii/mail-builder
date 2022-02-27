@@ -2,7 +2,7 @@ import * as React from 'react';
 import StructureItem from './StructureItem/StructureItem';
 
 
-const StructureItems: React.FC<{}> = () => {
+const StructureItems: React.FC = () => {
   return (
     <>
       <StructureItem cols={1}/>
