@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "electron": "^16.0.10",
+    "electron": "^16.2.6",
     "electron-builder": "^22.14.5"
   }
 }
